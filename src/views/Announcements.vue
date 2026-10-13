@@ -7,7 +7,12 @@ import EmptyState from '../components/EmptyState.vue'
 import Modal from '../components/Modal.vue'
 import ConfirmDialog from '../components/ConfirmDialog.vue'
 import { loadData } from '../services/storage'
+import { useRoute } from 'vue-router'
+import { ArrowLeft } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const route = useRoute()
 const {items,add,update,remove}=useCrud('announcements')
 const organizations=loadData('organizations')
 const search=ref(''), modalOpen=ref(false), editing=ref(null), deleting=ref(null)
@@ -21,6 +26,9 @@ function confirmDelete(){remove(deleting.value.id);deleting.value=null;window.__
 </script>
 <template>
 <div class="page">
+<button class="back-button" @click="router.back()">
+      <ArrowLeft :size="18" /> Back
+</button>
 <section class="page-intro"><div><span class="eyebrow">CAMPUS UPDATES</span><h1>Announcements</h1><p>Important updates from your student community.</p></div><button class="fab desktop-fab" @click="openAdd"><Plus :size="20"/><span>New</span></button></section>
 <div class="search-only"><div class="search-bar"><input v-model="search" placeholder="Search announcements..."/></div></div>
 <div v-if="filtered.length" class="stack"><AnnouncementCard v-for="a in filtered" :key="a.id" :announcement="a" @edit="openEdit" @delete="deleting=$event"/></div>

@@ -17,7 +17,14 @@ function saveEdit(){if(!form.value.name?.trim()||!form.value.description?.trim()
 </script>
 <template>
   <div class="page detail-page" v-if="org">
-    <button class="back-button" @click="router.back()"><ArrowLeft :size="18" /> Back</button>
+    <button
+      class="back-button"
+      type="button"
+      @click="router.push('/organizations')"
+    >
+      <ArrowLeft :size="18" />
+      Back to Organizations
+    </button>
     <section class="detail-hero"><div class="org-avatar large">{{ org.initials }}</div><span class="status-pill status-active">{{ org.status }}</span><h1>{{ org.name }}</h1><p>{{ org.description }}</p></section>
     <div class="contact-grid"><div><Mail :size="17" /><span>{{ org.email || 'No email' }}</span></div><div><Phone :size="17" /><span>{{ org.phone || 'No phone' }}</span></div></div>
     <section class="detail-section"><div class="section-heading"><div><span class="eyebrow">OVERVIEW</span><h2>Organization details</h2></div><button class="icon-button" aria-label="Edit organization" @click="openEdit"><Pencil :size="18" /></button></div><div class="detail-list"><div><span>President</span><strong>{{ org.president || 'Not assigned' }}</strong></div><div><span>Adviser</span><strong>{{ org.adviser || 'Not assigned' }}</strong></div><div><span>Members</span><strong>{{ org.members }}</strong></div><div><span>Established</span><strong>{{ org.established }}</strong></div></div></section>

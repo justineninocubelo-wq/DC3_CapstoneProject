@@ -1,6 +1,13 @@
 <script setup>
 import { ref } from 'vue'
-import { Eye, EyeOff, LockKeyhole, Mail, ArrowRight, ShieldCheck } from 'lucide-vue-next'
+import {
+  Eye,
+  EyeOff,
+  LockKeyhole,
+  Mail,
+  ArrowRight,
+  ShieldCheck
+} from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import { login } from '../services/auth'
 
@@ -14,16 +21,33 @@ const error = ref('')
 
 async function submit() {
   error.value = ''
-  if (!email.value.trim()) return error.value = 'Please enter your email address.'
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) return error.value = 'Please enter a valid email address.'
-  if (!password.value) return error.value = 'Please enter your password.'
+
+  if (!email.value.trim()) {
+    error.value = 'Please enter your email address.'
+    return
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+    error.value = 'Please enter a valid email address.'
+    return
+  }
+
+  if (!password.value) {
+    error.value = 'Please enter your password.'
+    return
+  }
 
   loading.value = true
-  await new Promise(resolve => setTimeout(resolve, 250))
+  await new Promise(resolve => setTimeout(resolve, 200))
+
   const result = login(email.value, password.value, remember.value)
   loading.value = false
 
-  if (!result.success) return error.value = result.message
+  if (!result.success) {
+    error.value = result.message
+    return
+  }
+
   router.replace('/home')
 }
 </script>
@@ -34,35 +58,61 @@ async function submit() {
     <div class="login-decoration decoration-two"></div>
 
     <main class="login-card">
-      <div class="login-brand">
-        <div class="brand-mark"><ShieldCheck :size="30" /></div>
-        <div>
-          <strong>OrgConnect</strong>
-          <span>Student Organization Hub</span>
+      <div class="login-brand login-brand-centered">
+        <div class="brand-mark">
+          <ShieldCheck :size="32" />
         </div>
+
+        <strong>OrgConnect</strong>
+        <span>Student Organization Hub</span>
       </div>
 
       <div class="login-copy">
         <span class="eyebrow">WELCOME BACK</span>
         <h1>Connect. Organize. Lead.</h1>
-        <p>Sign in to manage your organizations, events, members, and campus updates.</p>
+        <p>
+          Sign in to manage your organizations, events, members,
+          and campus updates.
+        </p>
       </div>
 
-      <form @submit.prevent="submit" class="login-form">
+      <form class="login-form" @submit.prevent="submit">
         <div class="field">
           <label for="login-email">Email address</label>
+
           <div class="input-wrap">
             <Mail :size="18" />
-            <input id="login-email" v-model="email" type="email" autocomplete="email" placeholder="Enter your email address" required />
+            <input
+              id="login-email"
+              v-model="email"
+              type="email"
+              autocomplete="email"
+              placeholder="Enter your email address"
+              required
+            />
           </div>
         </div>
 
         <div class="field">
           <label for="login-password">Password</label>
+
           <div class="input-wrap">
             <LockKeyhole :size="18" />
-            <input id="login-password" v-model="password" :type="showPassword ? 'text' : 'password'" autocomplete="current-password" placeholder="Enter your password" required />
-            <button type="button" class="input-action" :aria-label="showPassword ? 'Hide password' : 'Show password'" @click="showPassword = !showPassword">
+            <input
+              id="login-password"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            />
+
+            <button
+              type="button"
+              class="input-action"
+              :aria-label="showPassword ? 'Hide password' : 'Show password'"
+              @click="showPassword = !showPassword"
+            >
               <EyeOff v-if="showPassword" :size="18" />
               <Eye v-else :size="18" />
             </button>
@@ -70,13 +120,29 @@ async function submit() {
         </div>
 
         <div class="login-options">
-          <label class="check-label"><input v-model="remember" type="checkbox" /> <span>Remember me</span></label>
-          <button type="button" class="link-button" @click="router.push('/forgot-password')">Forgot password?</button>
+          <label class="check-label">
+            <input v-model="remember" type="checkbox" />
+            <span>Remember me</span>
+          </label>
+
+          <button
+            type="button"
+            class="link-button"
+            @click="router.push('/forgot-password')"
+          >
+            Forgot password?
+          </button>
         </div>
 
-        <div v-if="error" class="form-error" role="alert">{{ error }}</div>
+        <div v-if="error" class="form-error" role="alert">
+          {{ error }}
+        </div>
 
-        <button class="btn btn-primary btn-full login-submit" type="submit" :disabled="loading">
+        <button
+          class="btn btn-primary btn-full login-submit"
+          type="submit"
+          :disabled="loading"
+        >
           {{ loading ? 'Signing in...' : 'Sign in' }}
           <ArrowRight v-if="!loading" :size="18" />
         </button>
@@ -84,10 +150,14 @@ async function submit() {
 
       <div class="auth-register-prompt">
         New to OrgConnect?
-        <button type="button" class="link-button" @click="router.push('/register')">Create account</button>
+        <button
+          type="button"
+          class="link-button"
+          @click="router.push('/register')"
+        >
+          Create account
+        </button>
       </div>
-
-      <p class="login-footer">Create an account to get started with OrgConnect.</p>
     </main>
   </div>
 </template>
