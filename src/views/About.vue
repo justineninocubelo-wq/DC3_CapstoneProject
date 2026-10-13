@@ -1,0 +1,6 @@
+<script setup>
+import { ArrowLeft, Shield, Users, CalendarDays, Building2 } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+const router=useRouter()
+</script>
+<template><div class="page"><button class="back-button" @click="router.back()"><ArrowLeft :size="18"/> Back</button><section class="about-hero"><div class="brand-mark"><Shield :size="28"/></div><span class="eyebrow">STUDENT COMMUNITY PLATFORM</span><h1>OrgConnect</h1><p>One place to discover campus organizations, keep up with events, and connect with student communities.</p><span class="status-pill status-active">Version 1.0.0 · Demo</span></section><section class="detail-section"><h2>What you can do</h2><div class="help-item"><Building2/><div><strong>Explore organizations</strong><p>Find organization information and contact details.</p></div></div><div class="help-item"><Users/><div><strong>Manage member information</strong><p>Browse and filter the member directory.</p></div></div><div class="help-item"><CalendarDays/><div><strong>Keep track of events</strong><p>Manage upcoming activities and mark completed events.</p></div></div><p class="muted">Built as a Vue 3 student organization management system demonstration.</p></section></div></template>
